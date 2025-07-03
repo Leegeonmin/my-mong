@@ -1,4 +1,4 @@
-package com.lgm.boilerplate.exception;
+package com.lgm.my_mong.exception;
 
 public interface CommonResponseCode {
     String getCode();

@@ -1,10 +1,10 @@
-package com.lgm.boilerplate;
+package com.lgm.my_mong;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class BoilerplateApplicationTests {
+class MyMongApplicationTests {
 
 	@Test
 	void contextLoads() {

@@ -1,7 +1,7 @@
-package com.lgm.boilerplate.response;
+package com.lgm.my_mong.response;
 
 
-import com.lgm.boilerplate.exception.CommonResponseCode;
+import com.lgm.my_mong.exception.CommonResponseCode;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 

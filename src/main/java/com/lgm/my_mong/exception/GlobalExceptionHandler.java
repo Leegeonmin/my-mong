@@ -1,6 +1,6 @@
-package com.lgm.boilerplate.exception;
+package com.lgm.my_mong.exception;
 
-import com.lgm.boilerplate.response.ApiResponse;
+import com.lgm.my_mong.response.ApiResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
