@@ -1,5 +1,6 @@
 package com.lgm.my_mong.security;
 
+import com.lgm.my_mong.exception.CustomException;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -35,10 +36,12 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                 SecurityContextHolder.getContext().setAuthentication(authentication);
             }
 
-        }catch (RuntimeException e){
+        }catch (CustomException e){
             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
             response.setContentType("application/json");
-            response.getWriter().write("{\"error\": \"" + e.getMessage() + "\"}");
+            response.setCharacterEncoding("UTF-8");
+            response.getWriter().write(String.format("{\"code\": \"%s\", \"message\": \"%s\"}",
+                    e.getCommonResponseCode().getCode(), e.getCommonResponseCode().getMessage()));
             return; // 더 이상 진행하지 않음
         }
         filterChain.doFilter(request, response);
