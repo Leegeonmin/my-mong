@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/v1/api/auth")
 @RequiredArgsConstructor
 public class AuthController {
-    private final UserService authService;
+    private final UserService userService;
 
     /**
      * 회원가입
@@ -22,7 +22,7 @@ public class AuthController {
     public ResponseEntity<ApiResponse<AuthDTO.TokenResponse>> signUp(
             @Valid @RequestBody AuthDTO.SignUpRequest request) {
 
-        AuthDTO.TokenResponse response = authService.signUp(request);
+        AuthDTO.TokenResponse response = userService.signUp(request);
         return ApiResponse.success(response);
     }
 
@@ -34,7 +34,7 @@ public class AuthController {
             @Valid @RequestBody AuthDTO.SignInRequest request) {
 
 
-        AuthDTO.TokenResponse response = authService.signIn(request);
+        AuthDTO.TokenResponse response = userService.signIn(request);
         return ApiResponse.success(response);
     }
 
@@ -47,7 +47,7 @@ public class AuthController {
 
         String username = authentication.getName();
 
-        AuthDTO.UserInfo response = authService.getCurrentUser(username);
+        AuthDTO.UserInfo response = userService.getCurrentUser(username);
         return ApiResponse.success(response);
     }
 
