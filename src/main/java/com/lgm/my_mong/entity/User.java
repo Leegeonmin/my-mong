@@ -30,15 +30,6 @@ public class User extends BaseTimeEntity {
     @Column(nullable = false)
     private Integer rating = 1000;  // ELO 랭킹 점수 기본값
 
-    // 1:1 관계 - 한 유저는 최대 1마리 몬스터 소유
-    @OneToOne(mappedBy = "owner", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private Mong monster;
-
-    // 편의 메서드
-    public boolean hasMonster() {
-        return monster != null;
-    }
-
     public void updateRating(int newRating) {
         this.rating = newRating;
     }
