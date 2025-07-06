@@ -25,7 +25,9 @@ public class SecurityConfig {
 
                 // 3. URL별 권한 설정
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("v1/api/health/**").permitAll()     // 로그인/회원가입 허용
+                        .requestMatchers("/v1/api/health/**").permitAll()
+                        .requestMatchers("/v1/api/auth/signup").permitAll()   // 회원가입 허용
+                        .requestMatchers("/v1/api/auth/signin").permitAll()   // 로그인 허용// 로그인/회원가입 허용
                         .anyRequest().authenticated()                    // 나머지는 인증 필요
                 )
 

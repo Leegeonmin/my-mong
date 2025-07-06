@@ -2,6 +2,7 @@ package com.lgm.my_mong.response;
 
 
 import com.lgm.my_mong.exception.CommonResponseCode;
+import com.lgm.my_mong.exception.ResponseCode;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
@@ -21,6 +22,10 @@ public record ApiResponse<T>(
     public static <T> ResponseEntity<ApiResponse<T>> success(CommonResponseCode responseCode, T data) {
         return ResponseEntity.status(HttpStatus.OK).body(new ApiResponse<>(true, responseCode.getCode(), responseCode.getMessage(), data));
     }
+    public static <T> ResponseEntity<ApiResponse<T>> success(T data) {
+        return ResponseEntity.status(HttpStatus.OK).body(new ApiResponse<>(true, ResponseCode.SUCCESS.getCode(), ResponseCode.SUCCESS.getMessage(), data));
+    }
+
 
     public static <T> ResponseEntity<ApiResponse<T>> fail(CommonResponseCode responseCode) {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ApiResponse<>(false, responseCode.getCode(), responseCode.getMessage(), null));
