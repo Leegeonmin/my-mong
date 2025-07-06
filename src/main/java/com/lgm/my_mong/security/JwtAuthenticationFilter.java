@@ -21,20 +21,28 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-        String token = extractTokenFromHeader(request);
+        try{
+            String token = extractTokenFromHeader(request);
 
-        if (token != null && jwtTokenProvider.validateToken(token)) {
-            String username = jwtTokenProvider.getUsername(token);
-            Authentication authentication = new UsernamePasswordAuthenticationToken(
-                    username,           // 사용자명
-                    null,              // 비밀번호 (이미 검증했으니 null)
-                    new ArrayList<>()   // 권한 (일단 빈 리스트)
-            );
+            if (token != null && jwtTokenProvider.validateToken(token)) {
+                String username = jwtTokenProvider.getUsername(token);
+                Authentication authentication = new UsernamePasswordAuthenticationToken(
+                        username,           // 사용자명
+                        null,              // 비밀번호 (이미 검증했으니 null)
+                        new ArrayList<>()   // 권한 (일단 빈 리스트)
+                );
 
-            SecurityContextHolder.getContext().setAuthentication(authentication);
+                SecurityContextHolder.getContext().setAuthentication(authentication);
+            }
+
+        }catch (RuntimeException e){
+            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+            response.setContentType("application/json");
+            response.getWriter().write("{\"error\": \"" + e.getMessage() + "\"}");
+            return; // 더 이상 진행하지 않음
         }
-
         filterChain.doFilter(request, response);
+
     }
 
     private String extractTokenFromHeader(HttpServletRequest request) {

@@ -1,7 +1,12 @@
 package com.lgm.my_mong.security;
 
 
+import com.lgm.my_mong.exception.CustomException;
+import com.lgm.my_mong.exception.ResponseCode;
+import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.MalformedJwtException;
+import io.jsonwebtoken.UnsupportedJwtException;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import org.springframework.beans.factory.annotation.Value;
@@ -44,8 +49,18 @@ public class JwtTokenProvider {
                     .parseSignedClaims(token)
                     .getPayload();
             return true;
-        }catch (Exception e) {
-            return false;
+        }catch (ExpiredJwtException e) {
+            // 토큰 만료
+            throw new CustomException(ResponseCode.VALIDATE_TOKEN_FAIL);
+        } catch (SecurityException | MalformedJwtException e) {
+            // 잘못된 JWT 서명
+            throw new CustomException(ResponseCode.TOKEN_SIGNATURE_FAIL);
+        } catch (UnsupportedJwtException e) {
+            // 지원되지 않는 JWT 토큰
+            throw new CustomException(ResponseCode.VALIDATE_TOKEN_FAIL);
+        } catch (IllegalArgumentException e) {
+            // JWT 토큰이 잘못되었습니다
+            throw new CustomException(ResponseCode.VALIDATE_TOKEN_FAIL);
         }
 
     }
