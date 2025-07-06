@@ -57,10 +57,10 @@ public class JwtTokenProvider {
             throw new CustomException(ResponseCode.TOKEN_SIGNATURE_FAIL);
         } catch (UnsupportedJwtException e) {
             // 지원되지 않는 JWT 토큰
-            throw new CustomException(ResponseCode.VALIDATE_TOKEN_FAIL);
+            throw new CustomException(ResponseCode.NOT_SUPPORTED_TOKEN);
         } catch (IllegalArgumentException e) {
             // JWT 토큰이 잘못되었습니다
-            throw new CustomException(ResponseCode.VALIDATE_TOKEN_FAIL);
+            throw new CustomException(ResponseCode.ILLEGAL_TOKEN);
         }
 
     }
