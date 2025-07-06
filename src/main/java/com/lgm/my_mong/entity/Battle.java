@@ -67,12 +67,6 @@ public class Battle extends BaseTimeEntity {
         return isCompleted() && winner.equals(challenger);
     }
 
-    public void completeBattle(User winner, String battleStory) {
-        this.winner = winner;
-        this.battleStory = battleStory;
-        this.status = BattleStatus.COMPLETED;
-        this.completedAt = LocalDateTime.now();
-    }
     
     // 배틀 상태 enum
     public enum BattleStatus {
