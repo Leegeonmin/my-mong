@@ -2,7 +2,10 @@ package com.lgm.my_mong.entity;
 
 
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Table(name = "mongs")
@@ -21,7 +24,11 @@ public class Mong extends BaseTimeEntity {
     private User owner;
 
     @Column(nullable = false, length = 100)
+    private String title;
+
+    @Column(nullable = false, length = 100)
     private String name;
+
 
     @Column(nullable = false, columnDefinition = "TEXT")
     private String description;
