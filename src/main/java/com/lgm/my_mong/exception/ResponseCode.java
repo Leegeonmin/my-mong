@@ -28,9 +28,12 @@ public enum ResponseCode implements CommonResponseCode {
     INVALID_PASSWORD("0403", "비밀번호가 유효하지 않습니다"),
 
 
-    // open ai request 관련 (0500 ~ 0599)
+    // mong 생성 관련 (0500 ~ 0599)
     OPENAI_ERROR("0500", "서버 요청 에러"),
-    JSON_PARSING_ERROR("0501", "서버 Mong 생성 JSON 파싱 에러");
+    JSON_PARSING_ERROR("0501", "서버 Mong 생성 JSON 파싱 에러"),
+    ALREADY_MONG_EXIST("0502", "이미 Mong이 존재합니다")
+    ;
+
     private final String code;
     private final String message;
 }

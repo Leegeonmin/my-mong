@@ -15,8 +15,8 @@ public class MongDTO {
     private String name;
 
     @JsonProperty("수식어")
-    private String modifier;
+    private String title;
 
     @JsonProperty("스토리")
-    private String story;
+    private String description;
 }
