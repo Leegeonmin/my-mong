@@ -34,6 +34,12 @@ public class OpenAiProvider {
     @Value("${spring.openai.api.temperature}")
     private float temperature;
 
+    @Value("${spring.openai.prompts.monster-generation.system}")
+    private String systemPrompt;
+
+    @Value("${spring.openai.prompts.monster-generation.user}")
+    private String userPrompt;
+
     public OpenAiResponseDTO sendRequest(String systemMessage, String userMessage) {
         Map<String, Object> request = Map.of(
                 "model", model,
@@ -68,11 +74,7 @@ public class OpenAiProvider {
     }
 
     public MongDTO generateMonster()  {
-        String systemMessage = "당신은 창의적인 몬스터 생성 전문가입니다. 우스꽝스러워도 되고 진지해도 됩니다. JSON 형식으로 답변하는데 들어가는 데이터는" +
-                "이름, 수식어, 스토리(설명)입니다";
-        String userMessage = "새로운 몬스터를 생성해주세요. 한국어로 작성해주세요.";
-
-            OpenAiResponseDTO response = this.sendRequest(systemMessage, userMessage);
+            OpenAiResponseDTO response = this.sendRequest(systemPrompt, userPrompt);
             String content = response.getChoices().get(0).getMessage().getContent();
 
             // JSON 문자열에서 실제 JSON 부분만 추출
@@ -89,8 +91,6 @@ public class OpenAiProvider {
     }
 
 //    public BattleResultDTO battleMonsters(String challenger, String opponent) {
-//        String systemMessage = "당신은 공정한 몬스터 배틀 심판입니다. JSON 형식으로 답변해주세요.";
-//        String userMessage = String.format("배틀: %s vs %s. 누가 승리할지 판정해주고 배틀 스토리 라인 짜주세요.", challenger, opponent);
 //
 //        try {
 //            OpenAiResponseDTO response = this.sendRequest(systemMessage, userMessage);
@@ -109,7 +109,7 @@ public class OpenAiProvider {
 //    }
     private String extractJsonFromContent(String content) {
         if (content == null || content.trim().isEmpty()) {
-            throw new IllegalArgumentException("응답 내용이 비어있습니다.");
+            throw new CustomException(ResponseCode.JSON_PARSING_ERROR);
         }
 
         // 방법 1: ```json으로 둘러싸인 부분 추출
