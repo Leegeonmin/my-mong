@@ -24,7 +24,8 @@ import java.util.regex.Pattern;
 public class OpenAiProvider {
 
     private final RestClient openAiRestClient;
-    ObjectMapper om = new ObjectMapper();
+    private final ObjectMapper om;
+
     @Value("${spring.openai.api.model}")
     private String model;
 
