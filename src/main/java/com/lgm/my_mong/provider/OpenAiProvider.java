@@ -136,8 +136,7 @@ public class OpenAiProvider {
             return braceMatcher.group(1).trim();
         }
 
-        // 추출 실패 시 원본 반환
         log.warn("JSON 추출 실패, 원본 내용 반환: {}", content);
-        return content;
+        throw new CustomException(ResponseCode.JSON_PARSING_ERROR);
     }
 }
