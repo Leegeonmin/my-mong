@@ -2,6 +2,7 @@ package com.lgm.my_mong.controller;
 
 import com.lgm.my_mong.security.JwtTokenProvider;
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.annotation.Profile;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -26,6 +27,7 @@ public class HealthContoller {
         return "토큰 유효성: " + isValid;
     }
 
+    @Profile("dev")
     @GetMapping("/test/token")
     public ResponseEntity<?> testToken() {
         String dev = jwtTokenProvider.createToken("dev");
