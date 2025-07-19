@@ -1,6 +1,10 @@
 package com.lgm.my_mong.entity;
+
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 @Entity
@@ -15,20 +19,17 @@ public class Battle extends BaseTimeEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    // 배틀 신청자 (이 사람만 랭킹에 영향받음)
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "challenger_id", nullable = false)
-    private User challenger;
+    @JoinColumn(name = "challenger_mong_id", nullable = false)
+    private Mong challengerMong;
 
-    // 배틀 상대방 (수동적 참여, 랭킹 영향 없음)
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "opponent_id", nullable = false)
-    private User opponent;
+    @JoinColumn(name = "opponent_mong_id", nullable = false)
+    private Mong opponentMong;
 
-    // 배틀 승자 (nullable - 배틀 완료 후 설정)
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "winner_id")
-    private User winner;
+    @JoinColumn(name = "winner_mong_id")
+    private Mong winnerMong;
 
     // AI가 생성한 배틀 스토리
     @Column(name = "battle_story", columnDefinition = "TEXT")
@@ -43,30 +44,6 @@ public class Battle extends BaseTimeEntity {
     // 배틀 완료 시간 (별도 필드로 유지)
     @Column(name = "completed_at")
     private LocalDateTime completedAt;
-
-    // 편의 메서드
-    public boolean isCompleted() {
-        return status == BattleStatus.COMPLETED && winner != null;
-    }
-
-    public boolean isChallengerWinner() {
-        return winner != null && winner.equals(challenger);
-    }
-
-    public boolean isOpponentWinner() {
-        return winner != null && winner.equals(opponent);
-    }
-
-    public User getLoser() {
-        if (winner == null) return null;
-        return winner.equals(challenger) ? opponent : challenger;
-    }
-
-    // challenger 기준으로 승패 확인 (랭킹 계산용)
-    public boolean isChallengerVictory() {
-        return isCompleted() && winner.equals(challenger);
-    }
-
     
     // 배틀 상태 enum
     public enum BattleStatus {
