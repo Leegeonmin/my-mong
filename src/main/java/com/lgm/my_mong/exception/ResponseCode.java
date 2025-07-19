@@ -31,7 +31,11 @@ public enum ResponseCode implements CommonResponseCode {
     // mong 생성 관련 (0500 ~ 0599)
     OPENAI_ERROR("0500", "서버 요청 에러"),
     JSON_PARSING_ERROR("0501", "서버 Mong 생성 JSON 파싱 에러"),
-    ALREADY_MONG_EXIST("0502", "이미 Mong이 존재합니다")
+    ALREADY_MONG_EXIST("0502", "이미 Mong이 존재합니다"),
+
+    // rest client 관련 에러(0600 ~ 0699)
+    OPENAI_400_ERROR("0600", "OPEN AI 요청 에러"),
+    OPENAI_500_ERROR("0601", "OPEN AI 서버 에러")
     ;
 
     private final String code;

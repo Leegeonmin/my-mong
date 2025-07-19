@@ -9,6 +9,7 @@ import com.lgm.my_mong.exception.ResponseCode;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestClient;
 
@@ -49,6 +50,12 @@ public class OpenAiProvider {
                     .uri("/chat/completions")
                     .body(request)
                     .retrieve()
+                    .onStatus(HttpStatusCode::is4xxClientError, (req, res) -> {
+                        throw new CustomException(ResponseCode.OPENAI_400_ERROR);
+                    })
+                    .onStatus(HttpStatusCode::is5xxServerError, (req, res) -> {
+                        throw new CustomException(ResponseCode.OPENAI_500_ERROR);
+                    })
                     .body(OpenAiResponseDTO.class);
 
             return result;
